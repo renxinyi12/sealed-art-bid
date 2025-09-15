@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Shield, Eye, Clock } from "lucide-react";
+import { Palette, Eye, Clock, Lock } from "lucide-react";
 import { WalletConnect } from "./WalletConnect";
 
 const Hero = () => {
@@ -8,8 +8,8 @@ const Hero = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 text-gold text-sm font-medium mb-8">
-            <Shield className="h-4 w-4" />
-            Fully Homomorphic Encryption
+            <Palette className="h-4 w-4" />
+            Art Meets Cryptography
           </div>
           
           <h1 className="text-5xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
@@ -40,7 +40,7 @@ const Hero = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-encrypted/10 mx-auto mb-4 flex items-center justify-center encrypted-pulse">
-                <Shield className="h-6 w-6 text-encrypted" />
+                <Lock className="h-6 w-6 text-encrypted" />
               </div>
               <h3 className="font-semibold mb-2">Private Bidding</h3>
               <p className="text-sm text-muted-foreground">Your bids are encrypted and never revealed</p>
@@ -48,10 +48,10 @@ const Hero = () => {
             
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-gold/10 mx-auto mb-4 flex items-center justify-center pulse-glow">
-                <Eye className="h-6 w-6 text-gold" />
+                <Palette className="h-6 w-6 text-gold" />
               </div>
-              <h3 className="font-semibold mb-2">Transparent Results</h3>
-              <p className="text-sm text-muted-foreground">Winners determined fairly without revealing losing bids</p>
+              <h3 className="font-semibold mb-2">Art Focused</h3>
+              <p className="text-sm text-muted-foreground">Curated collection of digital and physical artworks</p>
             </div>
             
             <div className="text-center">

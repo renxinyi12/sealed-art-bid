@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Lock, Wallet } from "lucide-react";
+import { Palette, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -9,11 +9,11 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="p-2 rounded-lg bg-gold/10 glow-gold">
-              <Lock className="h-6 w-6 text-gold" />
+              <Palette className="h-6 w-6 text-gold" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Art Auctions</h1>
-              <p className="text-sm text-muted-foreground">Sealed by FHE</p>
+              <h1 className="text-xl font-bold tracking-tight">Sealed Art Bid</h1>
+              <p className="text-sm text-muted-foreground">FHE-Powered Auctions</p>
             </div>
           </Link>
           

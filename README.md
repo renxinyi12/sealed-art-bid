@@ -1,23 +1,68 @@
-# Sealed Art Bid - FHE-Powered Art Auction Platform
+# 🎨 Sealed Art Bid
 
-A revolutionary art auction platform that leverages Fully Homomorphic Encryption (FHE) to ensure complete privacy in bidding while maintaining transparency in results.
+> *Where Art Meets Cryptography - The Future of Private Auctions*
 
-## Features
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FHE Powered](https://img.shields.io/badge/FHE-Powered-blue.svg)](https://zama.ai)
+[![Web3 Ready](https://img.shields.io/badge/Web3-Ready-purple.svg)](https://ethereum.org)
 
-- **Private Bidding**: All bids are encrypted using FHE, ensuring complete confidentiality
-- **Transparent Results**: Winners are determined fairly without revealing losing bids
-- **Real-time Auctions**: Live bidding with instant encrypted processing
-- **Wallet Integration**: Seamless connection with popular Web3 wallets
-- **Artist Reputation**: Built-in reputation system for artists and bidders
+**Sealed Art Bid** revolutionizes the art auction industry by combining the beauty of artistic expression with cutting-edge cryptographic privacy. Built on Zama's Fully Homomorphic Encryption (FHE), our platform ensures that your bidding strategy remains completely confidential while maintaining fair and transparent auction results.
 
-## Technologies Used
+## ✨ Why Sealed Art Bid?
 
-- **Frontend**: React, TypeScript, Vite
-- **UI Components**: shadcn/ui, Tailwind CSS
-- **Web3**: Wagmi, RainbowKit, Viem
-- **Blockchain**: Ethereum Sepolia Testnet
-- **Encryption**: Zama FHE (Fully Homomorphic Encryption)
-- **Smart Contracts**: Solidity with FHE integration
+### 🔒 **Privacy-First Approach**
+- Your bids are encrypted using FHE technology
+- No one can see your bidding strategy - not even the platform
+- Complete confidentiality throughout the entire auction process
+
+### 🎯 **Art-Centric Experience**
+- Curated collection of digital and physical artworks
+- Focus on quality over quantity
+- Artist reputation system for authentic pieces
+
+### ⚡ **Real-Time Innovation**
+- Live bidding with instant encrypted processing
+- Seamless Web3 wallet integration
+- Modern, responsive user interface
+
+## 🚀 Key Features
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **FHE Encryption** | All bids encrypted using Zama's FHE library | ✅ Active |
+| **Multi-Wallet Support** | RainbowKit integration with 20+ wallets | ✅ Active |
+| **Artist Verification** | Reputation system for authentic artworks | ✅ Active |
+| **Real-time Bidding** | Live auctions with encrypted processing | ✅ Active |
+| **Mobile Responsive** | Optimized for all device sizes | ✅ Active |
+
+## 🛠️ Tech Stack
+
+### Frontend Architecture
+```
+React 18 + TypeScript + Vite
+├── UI Framework: shadcn/ui + Tailwind CSS
+├── State Management: TanStack Query
+├── Routing: React Router v6
+└── Icons: Lucide React
+```
+
+### Web3 Integration
+```
+Wagmi v2.9.0 + RainbowKit v2.2.8
+├── Wallet Support: MetaMask, Coinbase, WalletConnect
+├── Network: Ethereum Sepolia Testnet
+├── RPC: Infura + 1RPC
+└── Contract Interaction: Viem v2.33.0
+```
+
+### Cryptographic Layer
+```
+Zama FHE Integration
+├── Smart Contract: SealedArtBid.sol
+├── Encryption: euint32 for bid amounts
+├── Privacy: External proofs for bid validation
+└── Transparency: Decrypted results only after auction end
+```
 
 ## Getting Started
 
