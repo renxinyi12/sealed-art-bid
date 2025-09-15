@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lock, Palette, AlertCircle } from 'lucide-react';
+import { Lock, Palette, AlertCircle, CheckCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useSealedArtBid } from '@/hooks/useContract';
 import { useAccount } from 'wagmi';
@@ -16,12 +16,18 @@ interface EncryptedBidFormProps {
 
 export function EncryptedBidForm({ auctionId, artworkTitle, currentHighestBid }: EncryptedBidFormProps) {
   const [bidAmount, setBidAmount] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   
   const { address, isConnected } = useAccount();
-  const { createArtwork, startAuction } = useSealedArtBid();
+  const { 
+    placeEncryptedBid, 
+    isPending, 
+    isConfirming, 
+    isConfirmed, 
+    error: contractError,
+    hash 
+  } = useSealedArtBid();
 
   const handleSubmitBid = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,60 +47,28 @@ export function EncryptedBidForm({ auctionId, artworkTitle, currentHighestBid }:
       return;
     }
 
-    setIsSubmitting(true);
     setError(null);
     setSuccess(null);
 
     try {
-      // In a real implementation, this would:
-      // 1. Generate FHE encryption key
-      // 2. Encrypt the bid amount using FHE
-      // 3. Create external proof for the encrypted bid
-      // 4. Call the smart contract with encrypted data
+      // Call the smart contract with FHE encrypted bid
+      const txHash = await placeEncryptedBid(auctionId, parseFloat(bidAmount));
       
-      // For demonstration, we'll simulate the encrypted bid process
-      const encryptedBid = await simulateFHEEncryption(parseFloat(bidAmount));
-      
-      // Call smart contract with encrypted bid
-      const txHash = await placeEncryptedBid(auctionId, encryptedBid);
-      
-      setSuccess(`Encrypted bid placed successfully! Transaction: ${txHash.slice(0, 10)}...`);
+      setSuccess(`Encrypted bid placed successfully! Transaction: ${txHash?.slice(0, 10)}...`);
       setBidAmount('');
       
     } catch (err) {
       console.error('Error placing bid:', err);
       setError('Failed to place bid. Please try again.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  // Simulate FHE encryption process
-  const simulateFHEEncryption = async (amount: number): Promise<string> => {
-    // In real implementation, this would use Zama's FHE library
-    // For now, we'll simulate the encryption process
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Simulate encrypted data (in reality this would be euint32)
-    const encryptedData = btoa(JSON.stringify({
-      amount: amount,
-      timestamp: Date.now(),
-      bidder: address,
-      encrypted: true
-    }));
-    
-    return encryptedData;
-  };
-
-  // Simulate placing encrypted bid on smart contract
-  const placeEncryptedBid = async (auctionId: number, encryptedBid: string): Promise<string> => {
-    // In real implementation, this would call the smart contract
-    // with the encrypted bid data and proof
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Simulate transaction hash
-    return `0x${Math.random().toString(16).substr(2, 40)}`;
-  };
+  // Update success message when transaction is confirmed
+  useEffect(() => {
+    if (isConfirmed && hash) {
+      setSuccess(`✅ Encrypted bid confirmed on blockchain! Transaction: ${hash.slice(0, 10)}...`);
+    }
+  }, [isConfirmed, hash]);
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -129,10 +103,10 @@ export function EncryptedBidForm({ auctionId, artworkTitle, currentHighestBid }:
             )}
           </div>
 
-          {error && (
+          {(error || contractError) && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{error || (contractError as Error)?.message || 'Transaction failed'}</AlertDescription>
             </Alert>
           )}
 
@@ -146,12 +120,17 @@ export function EncryptedBidForm({ auctionId, artworkTitle, currentHighestBid }:
           <Button 
             type="submit" 
             className="w-full" 
-            disabled={isSubmitting || !isConnected}
+            disabled={isPending || isConfirming || !isConnected}
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <Lock className="h-4 w-4 mr-2 animate-spin" />
                 Encrypting & Submitting...
+              </>
+            ) : isConfirming ? (
+              <>
+                <CheckCircle className="h-4 w-4 mr-2 animate-pulse" />
+                Confirming Transaction...
               </>
             ) : (
               <>
@@ -171,13 +150,14 @@ export function EncryptedBidForm({ auctionId, artworkTitle, currentHighestBid }:
         <div className="mt-6 p-4 bg-encrypted/5 rounded-lg border border-encrypted/20">
           <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
             <Lock className="h-4 w-4 text-encrypted" />
-            How FHE Encryption Works
+            FHE Encryption Process
           </h4>
           <ul className="text-xs text-muted-foreground space-y-1">
-            <li>• Your bid amount is encrypted using FHE</li>
-            <li>• Only encrypted data is sent to the blockchain</li>
-            <li>• No one can see your bid until auction ends</li>
-            <li>• Winner is determined fairly without revealing losing bids</li>
+            <li>• 🔐 Bid amount encrypted using FHE technology</li>
+            <li>• 📡 Encrypted data + proof sent to smart contract</li>
+            <li>• 🔒 No one can see your bid until auction ends</li>
+            <li>• ⚖️ Fair winner determination without revealing losing bids</li>
+            <li>• 🌐 All data stored securely on blockchain</li>
           </ul>
         </div>
       </CardContent>

@@ -1,5 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@/components/ui/button';
+import { Wallet } from 'lucide-react';
 
 export function WalletConnect() {
   return (
@@ -8,7 +9,6 @@ export function WalletConnect() {
         account,
         chain,
         openAccountModal,
-        openChainModal,
         openConnectModal,
         authenticationStatus,
         mounted,
@@ -35,57 +35,18 @@ export function WalletConnect() {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} type="button">
+                  <Button onClick={openConnectModal} type="button" className="gap-2">
+                    <Wallet className="h-4 w-4" />
                     Connect Wallet
                   </Button>
                 );
               }
 
-              if (chain.unsupported) {
-                return (
-                  <Button onClick={openChainModal} type="button">
-                    Wrong network
-                  </Button>
-                );
-              }
-
               return (
-                <div className="flex gap-2">
-                  <Button
-                    onClick={openChainModal}
-                    type="button"
-                    variant="outline"
-                  >
-                    {chain.hasIcon && (
-                      <div
-                        style={{
-                          background: chain.iconBackground,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 999,
-                          overflow: 'hidden',
-                          marginRight: 4,
-                        }}
-                      >
-                        {chain.iconUrl && (
-                          <img
-                            alt={chain.name ?? 'Chain icon'}
-                            src={chain.iconUrl}
-                            style={{ width: 12, height: 12 }}
-                          />
-                        )}
-                      </div>
-                    )}
-                    {chain.name}
-                  </Button>
-
-                  <Button onClick={openAccountModal} type="button">
-                    {account.displayName}
-                    {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ''}
-                  </Button>
-                </div>
+                <Button onClick={openAccountModal} type="button" className="gap-2">
+                  <Wallet className="h-4 w-4" />
+                  {account.displayName}
+                </Button>
               );
             })()}
           </div>
